@@ -1,0 +1,4 @@
+.element__like-icon_active {
+  opacity: 1;
+  background: url("../../../../images/element-like-icon-active.svg") center no-repeat;
+}

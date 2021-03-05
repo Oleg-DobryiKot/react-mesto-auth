@@ -1,0 +1,42 @@
+@import url("./__logo/header__logo.css");
+
+.header {
+  width: calc(100% - 2 * 199px);
+  max-width: 882px;
+  margin: 0 auto;
+  padding-top: 45px;
+}
+
+.header::after {
+  content: ' ';
+  display: block;
+  width: 100%;
+  height: 0;
+  margin: 0 auto;
+  padding-top: 41px;
+  opacity: 0.7;
+  border-bottom: 1px solid #545454;
+}
+
+@media screen and (min-width: 900px) and (max-width: 1279px) {
+  .header {
+    width: 100%;
+    max-width: 882px;
+  }
+}
+
+@media screen and (min-width: 640px) and (max-width: 899px) {
+  .header {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 639px) {
+  .header {
+    width: 100%;
+
+    /* max-width: 284px; */
+    padding-top: 28px;
+  }
+}

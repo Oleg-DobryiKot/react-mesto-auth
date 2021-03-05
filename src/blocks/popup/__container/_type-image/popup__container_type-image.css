@@ -1,0 +1,11 @@
+.popup__container_type-image {
+  max-width: 75vw;
+  max-height: 75vh;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  box-sizing: border-box;
+  position: absolute;
+}

@@ -1,0 +1,27 @@
+.element__trash-icon {
+  width: 18px;
+  height: 19.5px;
+
+  /* margin-right: 31px; */
+  border: none;
+  background: url("../../../images/white-trash.svg") center no-repeat;
+  background-size: 100%;
+  cursor: pointer;
+  position: absolute;
+  right: 18px;
+  top: 15px;
+  transition: 0.3s;
+}
+
+.element__trash-icon:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.element__trash-icon_visible {
+  visibility: visible;
+}
+
+.element__trash-icon_hidden {
+  visibility: hidden;
+}

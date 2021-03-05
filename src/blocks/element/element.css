@@ -1,0 +1,17 @@
+@import url("./__image/element__image.css");
+@import url("./__description/element__description.css");
+@import url("./__title/element__title.css");
+@import url("./__likes/element__likes.css");
+@import url("./__like-icon/element__like-icon.css");
+@import url("./__trash-icon/element__trash-icon.css");
+@import url("./__like-count/element__like-count.css");
+
+.element {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 282px;
+  position: relative;
+}

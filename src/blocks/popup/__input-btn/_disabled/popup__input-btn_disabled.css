@@ -1,0 +1,17 @@
+/* .popup__input-btn_disabled:disabled { */
+.popup__input-btn:disabled {
+  background: #e5e5e5;
+  border-radius: 2px;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  opacity: 0.2;
+  height: 50px;
+  width: 100%;
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+}

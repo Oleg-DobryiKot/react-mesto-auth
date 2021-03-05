@@ -1,0 +1,9 @@
+.popup__input-text_type_error {
+  border-bottom: 1px solid #f00;
+  font-size: 14px;
+  line-height: 17px;
+  /* position: absolute;
+  left: 36px;
+  transition: 0.3s;
+  margin-top: 3px; */
+}
