@@ -5,6 +5,19 @@
   max-width: 882px;
   margin: 0 auto;
   padding-top: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+  margin: 0 auto;
+  border-bottom: 1px solid #545454;
+}
+
+/* .header {
+  width: calc(100% - 2 * 199px);
+  max-width: 882px;
+  margin: 0 auto;
+  padding-top: 45px;
 }
 
 .header::after {
@@ -16,7 +29,7 @@
   padding-top: 41px;
   opacity: 0.7;
   border-bottom: 1px solid #545454;
-}
+} */
 
 @media screen and (min-width: 900px) and (max-width: 1279px) {
   .header {

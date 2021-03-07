@@ -51,3 +51,57 @@
 .register__input::placeholder {
   color: rgb(255, 255, 255);
 }
+
+.register__button-container {
+  margin-top: 215px;
+  background: #fff;
+  border-radius: 2px;
+  height: 50px;
+  width: 100%;
+  max-width: 358px;
+  color: #000;
+  box-sizing: border-box;
+}
+
+.register__button-submit {
+  background: #fff;
+  border-radius: 2px;
+  height: 50px;
+  width: 100%;
+  max-width: 358px;
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.register__button-submit:hover {
+  background: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+
+.register__signin {
+  width: 100%;
+  max-width: 358px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 15px;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 1.1;
+  font-family: Inter, sans-serif;
+}
+
+.register__link {
+  font-size: 16px;
+  font-style: normal;
+  line-height: 1.1;
+  color: #fff;
+  margin-left: 10px;
+  font-family: Inter, sans-serif;
+}

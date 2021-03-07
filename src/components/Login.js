@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-// import './styles/Login.css';
+import './styles/Login.css';
 
 export default function Login({ onLogin }) {
  
@@ -50,22 +50,17 @@ export default function Login({ onLogin }) {
           Вход
         </p>
         <form onSubmit={handleSubmit} className="login__form">
-          <label htmlFor="email">
-            E-mail:
-          </label>
-          <input required id="email" name="email" type="text" value={data.email} onChange={handleChange} />
-          <label htmlFor="password">
-            Пароль:
-          </label>
-          <input required id="password" name="password" type="password" value={data.password} onChange={handleChange} />
+          <input className="login__input" placeholder="Email:" required id="email" name="email" type="text" value={data.email} onChange={handleChange} />
+          <input className="login__input" placeholder="Пароль:" required id="password" name="password" type="password" value={data.password} onChange={handleChange} />
           <div className="login__button-container">
-            <button type="submit" onSubmit={handleSubmit} className="login__link">Войти</button>
+            <button type="submit" onSubmit={handleSubmit} className="login__button-submit">Войти</button>
           </div>
         </form>
 
         <div className="login__signup">
-          <p>Ещё не зарегистрированы?</p>
-          <Link to="/sign-up" className="signup__link">Зарегистрироваться</Link>
+          <p>Ещё не зарегистрированы? 
+          <Link to="/sign-up" className="login__signup-link">Регистрация</Link>
+          </p>
         </div>
       </div>
     )

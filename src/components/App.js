@@ -6,7 +6,7 @@ import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import ImagePopup from './ImagePopup';
-import api from '../utils/api'
+import api from '../utils/api';
 import { useState, useEffect } from 'react';
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
@@ -16,6 +16,7 @@ import AddPlacePopup from './AddPlacePopup';
 import * as auth from '../utils/auth';
 import Register from './Register';
 import Login from './Login';
+import InfoTooltip from './InfoTooltip';
 
 function App() {
   const initialData = {email: '', password: ''};
@@ -23,13 +24,13 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [data, setData] = useState(initialData);
   const [cards, setCards] = useState([]);
   const history = useHistory();
-
   
   useEffect(() => {
 
@@ -56,7 +57,6 @@ function App() {
   }, [])
 
   const tokenCheck = () => {
-    // debugger;
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
       auth.checkToken(jwt)
@@ -73,16 +73,13 @@ function App() {
   function handleLogin({email, password}) {
     return auth.authorize(email, password)
       .then(res => {
-        // debugger;
-        if (!res || res.statusCode === 400) throw new Error('Что то пошло не так!');
-        if (res.statusCode === 401) throw new Error('Нет пользователя с таким мылом...');
-        if (res.jwt) {
+        if (!res || res.statusCode === 400) throw new Error('Что то пошло не так!')
+        if (res.statusCode === 401) throw new Error('Нет пользователя с таким e-mail...');
+        if (res.token) {
           setLoggedIn(true);
-          setData({email: res.email, password: res.password});
-          localStorage.setItem('jwt', res.jwt);
+          setData({email, password});
+          localStorage.setItem('jwt', res.token);
         }
-        // debugger;
-        // console.log(loggedIn);
       });
   }
 
@@ -177,7 +174,6 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>       
         <Header loggedIn={loggedIn} onLoggedOut={ handleLoggedOut } userData={ data }/>
           <Switch>
-            console.log({loggedIn})
             <ProtectedRoute exact path="/" 
               onEditProfile={ handleEditProfileClick }
               onAddPlace={ handleAddPlaceClick }
@@ -224,6 +220,10 @@ function App() {
       <ImagePopup 
         card={ selectedCard }
         isOpen={ isImagePopupOpen }
+        onClose={ closeAllPopups }
+      />
+      <InfoTooltip 
+        isOpen={ isTooltipOpen }
         onClose={ closeAllPopups }
       />
       </CurrentUserContext.Provider>

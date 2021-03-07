@@ -12,10 +12,11 @@ function Header({ loggedIn, onLoggedOut, userData }) {
         alt="Логотип"
       />
       <ul className="header__navbar">
-        {loggedIn} 
-        <li><Link to="/sign-in" className="header__login-link">Войти</Link></li> 
-        {/* <li><Link to="/my-profile" className="header__my-profile">{userData.email}</Link></li> */}
-        <li><button className="header__logout-link" onClick={ onLoggedOut } >Выйти</button></li>
+        <li className="header__navbar-links"><Link to="/my-profile" className="header__navbar-link">{userData.email}</Link></li>
+        {loggedIn ? 
+        <li className="header__navbar-links"><Link to="/" className="header__navbar-link" onClick={ onLoggedOut } >Выйти</Link></li> : 
+        <li className="header__navbar-links"><Link to="/sign-in" className="header__navbar-link">Войти</Link></li>
+         }
       </ul>
     </header>  
   )
