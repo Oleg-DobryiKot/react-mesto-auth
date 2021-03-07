@@ -1,4 +1,4 @@
-import './App.css';
+import './styles/App.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -8,19 +8,98 @@ import EditAvatarPopup from './EditAvatarPopup';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api'
 import { useState, useEffect } from 'react';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
 import 'react-dom';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import AddPlacePopup from './AddPlacePopup';
+import * as auth from '../utils/auth';
+import Register from './Register';
+import Login from './Login';
 
 function App() {
+  const initialData = {email: '', password: ''};
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
- 
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [data, setData] = useState(initialData);
   const [cards, setCards] = useState([]);
+  const history = useHistory();
+
+  
+  useEffect(() => {
+
+    tokenCheck();
+
+    api.getInitialCards()
+      .then(res => {
+        const cards = res.map(card => {
+          return {
+            _id: card._id,
+            name: card.name,
+            link: card.link,
+            likes: card.likes,
+            owner: card.owner
+          }
+        })
+        setCards(cards);
+      })
+      .catch(console.error);
+
+    api.getUserInfo()
+      .then(setCurrentUser)
+      .catch(console.error);
+  }, [])
+
+  const tokenCheck = () => {
+    // debugger;
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.checkToken(jwt)
+        .then(res => {
+          if (res) {
+            setData({email: res.email, password: res.password});
+            setLoggedIn(true);
+          }
+        })
+        .catch(() => { history.push('/sign-in') });
+    }
+  }
+
+  function handleLogin({email, password}) {
+    return auth.authorize(email, password)
+      .then(res => {
+        // debugger;
+        if (!res || res.statusCode === 400) throw new Error('Что то пошло не так!');
+        if (res.statusCode === 401) throw new Error('Нет пользователя с таким мылом...');
+        if (res.jwt) {
+          setLoggedIn(true);
+          setData({email: res.email, password: res.password});
+          localStorage.setItem('jwt', res.jwt);
+        }
+        // debugger;
+        // console.log(loggedIn);
+      });
+  }
+
+  function handleRegister({email, password}) {
+    return auth.register(email, password)
+      .then(res => {
+        if (!res || res.statusCode === 400) throw new Error('Что-то пошло не так!');
+        return res;
+      })
+  }
+
+  function handleLoggedOut() {
+    localStorage.removeItem('jwt');
+    setData(initialData);
+    setLoggedIn(false);
+    history.push('/sign-in');
+  }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(item => item._id === currentUser._id);
@@ -46,27 +125,6 @@ function App() {
       })
       .catch(console.error);
   } 
-  
-  useEffect(() => {
-      api.getInitialCards()
-      .then(res => {
-        const cards = res.map(card => {
-          return {
-            _id: card._id,
-            name: card.name,
-            link: card.link,
-            likes: card.likes,
-            owner: card.owner
-          }
-        })
-        setCards(cards);
-      })
-      .catch(console.error);
-
-      api.getUserInfo()
-      .then(setCurrentUser)
-      .catch(console.error);
-  }, [])
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -116,17 +174,31 @@ function App() {
 
   return (
     <div className="page">
-      <CurrentUserContext.Provider value={currentUser}>
-      <Header/>
-      <Main
-        onEditProfile={ handleEditProfileClick }
-        onAddPlace={ handleAddPlaceClick }
-        onEditAvatar={ handleEditAvatarClick }
-        onCardClick={ handleCardClick }
-        onCardLike={ handleCardLike }
-        onCardDelete={ handleCardDelete }
-        cards={ cards }
-      />
+      <CurrentUserContext.Provider value={currentUser}>       
+        <Header loggedIn={loggedIn} onLoggedOut={ handleLoggedOut } userData={ data }/>
+          <Switch>
+            console.log({loggedIn})
+            <ProtectedRoute exact path="/" 
+              onEditProfile={ handleEditProfileClick }
+              onAddPlace={ handleAddPlaceClick }
+              onEditAvatar={ handleEditAvatarClick }
+              onCardClick={ handleCardClick }
+              onCardLike={ handleCardLike }
+              onCardDelete={ handleCardDelete }
+              cards={ cards }
+              loggedIn={ loggedIn }
+              component={ Main }
+            />
+            <Route path="/sign-up">
+              <Register onRegister={ handleRegister }/>
+            </Route>
+            <Route path="/sign-in">
+              <Login onLogin={ handleLogin } />
+            </Route>
+            <Route exact path="/">
+              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+            </Route>
+          </Switch>
       <Footer/>
       <EditProfilePopup 
         isOpen={ isEditProfilePopupOpen }

@@ -1,7 +1,9 @@
 import logo from '../images/logo/logo.svg';
-import './Header.css';
+import './styles/Header.css';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-function Header(props) {
+function Header({ loggedIn, onLoggedOut, userData }) {
   return (
     <header className="header">
       <img
@@ -9,6 +11,12 @@ function Header(props) {
         src={logo}
         alt="Логотип"
       />
+      <ul className="header__navbar">
+        {loggedIn} 
+        <li><Link to="/sign-in" className="header__login-link">Войти</Link></li> 
+        {/* <li><Link to="/my-profile" className="header__my-profile">{userData.email}</Link></li> */}
+        <li><button className="header__logout-link" onClick={ onLoggedOut } >Выйти</button></li>
+      </ul>
     </header>  
   )
 }
