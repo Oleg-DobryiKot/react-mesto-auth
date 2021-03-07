@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-// import './styles/Register.css';
+import './styles/Register.css';
 
 export default function Register({ onRegister }) {
   const initialData = {
@@ -50,14 +50,14 @@ export default function Register({ onRegister }) {
         Регистрация
       </p>
       <form onSubmit={handleSubmit} className="register__form">
-        <label htmlFor="email">
+        {/* <label htmlFor="email">
           Email:
-        </label>
-        <input id="email" name="email" type="email" value={data.email} onChange={handleChange} />
-        <label htmlFor="password">
+        </label> */}
+        <input className="register__input" id="email" name="email" type="email" placeholder="Email:" value={data.email} onChange={handleChange} />
+        {/* <label htmlFor="password">
           Пароль:
-        </label>
-        <input id="password" name="password" type="password" value={data.password} onChange={handleChange} />
+        </label> */}
+        <input className="register__input" id="password" name="password" type="password" placeholder="Пароль:" value={data.password} onChange={handleChange} />
         <div className="register__button-container">
             <button type="submit" onSubmit={handleSubmit} className="register__link">Зарегистрироваться</button>
         </div>
