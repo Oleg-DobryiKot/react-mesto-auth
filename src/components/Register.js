@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { ErrorMessageContext } from '../contexts/ErrorMessageContext';
 import { Link, useHistory } from 'react-router-dom';
 import './styles/Register.css';
 
@@ -9,7 +10,7 @@ export default function Register({ onRegister, onShowTooltip }) {
   };
 
   const [data, setData] = useState(initialData);
-  const [message, setMessage] = useState('');
+  const { setErrorMessage } = useContext(ErrorMessageContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export default function Register({ onRegister, onShowTooltip }) {
 
   const resetForm = () => {
     setData(initialData);
-    setMessage('');
+    setErrorMessage('');
   }
 
   const handleSubmit = (event) => {
@@ -43,7 +44,7 @@ export default function Register({ onRegister, onShowTooltip }) {
       .then(onShowTooltip())
       .then(resetForm)
       .then(() => history.push('/sign-in'))
-      .catch(err => setMessage(err.message || 'Что-то пошло не так!'));
+      .catch(err => setErrorMessage(err.message || 'Что-то пошло не так!'));
   }
   
   return (

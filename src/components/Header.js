@@ -19,10 +19,10 @@ function Header({ loggedIn, onLoggedOut, userData }) {
         alt="Логотип"
       />
       <ul className="header__navbar">
-        <li className="header__navbar-links"><Link to="/my-profile" className="header__navbar-link">{userData.email}</Link></li>
         {userData.email === '' && 
         <li className="header__navbar-links"><Link to={navbar.routePath} className="header__navbar-link">{navbar.routeName}</Link></li>}
-        {loggedIn && <li className="header__navbar-links"><Link to="/" className="header__navbar-link" onClick={ onLoggedOut } >Выйти</Link></li>}
+        {loggedIn && <li className="header__navbar-links"><Link to="/" className="header__navbar-link">{userData.email}</Link></li>}
+        {loggedIn && <li className="header__navbar-links"><Link to="/sign-in" className="header__navbar-link" onClick={ onLoggedOut } >Выйти</Link></li>}
       </ul>
     </header>  
   )

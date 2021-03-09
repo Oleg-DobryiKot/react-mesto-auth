@@ -7,11 +7,12 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import 'react-dom';
-import { CurrentUserContext, isRegistered } from '../contexts/CurrentUserContext';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { ErrorMessageContext } from '../contexts/ErrorMessageContext';
 import AddPlacePopup from './AddPlacePopup';
 import * as auth from '../utils/auth';
 import Register from './Register';
@@ -31,10 +32,11 @@ function App() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [data, setData] = useState(initialData);
   const [cards, setCards] = useState([]);
+  const [errorMessageState, setErrorMessageState]  = useState('');
   const history = useHistory();
   
   useEffect(() => {
-
+// debugger;
     tokenCheck();
 
     api.getInitialCards()
@@ -53,7 +55,9 @@ function App() {
       .catch(console.error);
 
     api.getUserInfo()
-      .then(setCurrentUser)
+      .then(info => {
+        setCurrentUser(info);
+      })
       .catch(console.error);
   }, [])
 
@@ -63,11 +67,15 @@ function App() {
       auth.checkToken(jwt)
         .then(res => {
           if (res) {
-            setData({email: res.email, password: res.password});
+            // debugger;
+            setData({email: res.data.email});
             setLoggedIn(true);
           }
         })
         .catch(() => { history.push('/sign-in') });
+    }
+    else {
+      history.push('/sign-in');
     }
   }
 
@@ -91,6 +99,7 @@ function App() {
         setIsRegistered(true);
         return res;
       })
+      .catch()
   }
 
   function handleLoggedOut() {
@@ -179,6 +188,8 @@ function App() {
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>       
+      <ErrorMessageContext.Provider value={{ message: errorMessageState, setErrorMessage: message => setErrorMessageState(message) }}>       
+
         <Header loggedIn={loggedIn} onLoggedOut={ handleLoggedOut } userData={ data }/>
           <Switch>
             <ProtectedRoute exact path="/" 
@@ -237,6 +248,7 @@ function App() {
         onClose={ closeAllPopups }
         isRegistered = {isRegistered}
       />
+      </ErrorMessageContext.Provider>
       </CurrentUserContext.Provider>
   </div>
 

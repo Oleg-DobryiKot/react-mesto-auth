@@ -1,11 +1,14 @@
 import logoResolve from '../images/logo/logo-res.svg';
 import logoReject from '../images/logo/logo-rej.svg';
 import './styles/InfoTooltip.css';
-import React from 'react';
+import React, { useContext } from 'react';
 import 'react-dom';
+import { ErrorMessageContext } from '../contexts/ErrorMessageContext';
 
 function InfoTooltip({isOpen, onClose, isRegistered}) {
-  const TooltipMessage = isRegistered ? 'Вы успешно зарегестрировались!' : 'Что-то пошло не так!';
+  const { message } = useContext(ErrorMessageContext);
+
+  const TooltipMessage = isRegistered ? 'Вы успешно зарегестрировались!' : (message || 'Что-то пошло не так!');
   const TooltipLogo = isRegistered ? logoResolve : logoReject;
 
   return (
