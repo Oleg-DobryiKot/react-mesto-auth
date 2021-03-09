@@ -156,11 +156,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
   }
 
-  function handleRejectTooltip() {
-    setIsTooltipOpen(true);
-  }
-
-  function handleResolveTooltip() {
+  function handleShowTooltip() {
     setIsTooltipOpen(true);
   }
 
@@ -199,8 +195,7 @@ function App() {
             <Route path="/sign-up">
               <Register 
               onRegister={ handleRegister }
-              onRejectTooltip={ handleRejectTooltip }
-              onResolveTooltip={ handleResolveTooltip }
+              onShowTooltip={ handleShowTooltip }
             />
             </Route>
             <Route path="/sign-in">
