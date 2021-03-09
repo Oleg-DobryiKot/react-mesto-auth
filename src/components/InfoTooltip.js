@@ -4,24 +4,20 @@ import './styles/InfoTooltip.css';
 import React from 'react';
 import 'react-dom';
 
-function InfoTooltip({isOpen, onClose, isRegistered, loginMessage}) {
+function InfoTooltip({isOpen, onClose, isRegistered}) {
+  const TooltipMessage = isRegistered ? 'Вы успешно зарегестрировались!' : 'Что-то пошло не так!';
+  const TooltipLogo = isRegistered ? logoResolve : logoReject;
+
   return (
     <section className={ `popup ${ isOpen ? 'popup_is-opened' : '' }` }>
-      <div className="popup__container">
+      <div className="tooltip__container">
         <button onClick={ onClose } type="button" className="popup__close"></button>
-        {isRegistered ? 
           <img
-            className="popup__icon-resolve"
-            src={logoResolve}
+            className="tooltip__icon"
+            src={TooltipLogo}
             alt="Успешный логин"
-          /> :
-          <img
-            className="popup__icon-reject"
-            src={logoReject}
-            alt="Доступ закрыт"
-          />
-        }
-        <h3 className="popup__title">{loginMessage}</h3> 
+          /> 
+        <h3 className="tooltip__title">{ TooltipMessage }</h3> 
       </div>
     </section>
   )

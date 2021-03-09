@@ -11,7 +11,7 @@ import { useState, useEffect } from 'react';
 import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import 'react-dom';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { CurrentUserContext, isRegistered } from '../contexts/CurrentUserContext';
 import AddPlacePopup from './AddPlacePopup';
 import * as auth from '../utils/auth';
 import Register from './Register';
@@ -28,6 +28,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
   const [data, setData] = useState(initialData);
   const [cards, setCards] = useState([]);
   const history = useHistory();
@@ -86,7 +87,8 @@ function App() {
   function handleRegister({email, password}) {
     return auth.register(email, password)
       .then(res => {
-        if (!res || res.statusCode === 400) throw new Error('Что-то пошло не так!');
+        if (!res || res.statusCode === 400) setIsRegistered(false);
+        setIsRegistered(true);
         return res;
       })
   }
@@ -154,6 +156,14 @@ function App() {
     setIsEditAvatarPopupOpen(false);
   }
 
+  function handleRejectTooltip() {
+    setIsTooltipOpen(true);
+  }
+
+  function handleResolveTooltip() {
+    setIsTooltipOpen(true);
+  }
+
   function handleAddPlaceSubmit(CardData) {
     api.addNewCard(CardData)
       .then(res => {setCards([res, ...cards])})
@@ -166,6 +176,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsImagePopupOpen(false);
+    setIsTooltipOpen(false);
     setSelectedCard({});
   }
 
@@ -186,7 +197,11 @@ function App() {
               component={ Main }
             />
             <Route path="/sign-up">
-              <Register onRegister={ handleRegister }/>
+              <Register 
+              onRegister={ handleRegister }
+              onRejectTooltip={ handleRejectTooltip }
+              onResolveTooltip={ handleResolveTooltip }
+            />
             </Route>
             <Route path="/sign-in">
               <Login onLogin={ handleLogin } />
@@ -225,6 +240,7 @@ function App() {
       <InfoTooltip 
         isOpen={ isTooltipOpen }
         onClose={ closeAllPopups }
+        isRegistered = {isRegistered}
       />
       </CurrentUserContext.Provider>
   </div>

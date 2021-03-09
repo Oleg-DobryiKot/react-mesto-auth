@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import './styles/Register.css';
 
-export default function Register({ onRegister }) {
+export default function Register({ onRegister, onResolveTooltip, onRejectTooltip }) {
   const initialData = {
     password: '',
     email: ''
@@ -35,10 +35,12 @@ export default function Register({ onRegister }) {
     event.preventDefault();
       
     if (!data.email || !data.password) {
+        onRejectTooltip();
         return;
       }
 
     onRegister(data)
+      .then(onResolveTooltip())
       .then(resetForm)
       .then(() => history.push('/sign-in'))
       .catch(err => setMessage(err.message || 'Что-то пошло не так!'));
