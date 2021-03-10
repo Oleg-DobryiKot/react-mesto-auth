@@ -1,7 +1,7 @@
 # Проект 10: Место (React) 
-### 🏠 [Страница проекта:](https://github.com/Oleg-DobryiKot/mesto-react)
+### 🏠 [Страница проекта:](https://github.com/Oleg-DobryiKot/react-mesto-auth)
 
-###  [Превью проекта:](https://oleg-dobryikot.github.io/mesto-react/index.html)
+###  [Превью проекта:](https://oleg-dobryikot.github.io/react-mesto-auth/index.html)
 
 ## Автор
 👤 **Олег Матвеев**
