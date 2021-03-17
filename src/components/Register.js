@@ -10,7 +10,7 @@ export default function Register({ onRegister, onShowTooltip }) {
   };
 
   const [data, setData] = useState(initialData);
-  const { setErrorMessage } = useContext(ErrorMessageContext);
+  const setErrorMessage = useContext(ErrorMessageContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -53,11 +53,11 @@ export default function Register({ onRegister, onShowTooltip }) {
         Регистрация
       </p>
 
-      <form onSubmit={handleSubmit} className="register__form">
-        <input className="register__input" id="email" name="email" type="email" placeholder="Email:" value={data.email} onChange={handleChange} />
-        <input className="register__input" id="password" name="password" type="password" placeholder="Пароль:" value={data.password} onChange={handleChange} />
+      <form onSubmit={ handleSubmit } className="register__form">
+        <input className="register__input" id="email" name="email" type="email" placeholder="Email:" value={data.email} onChange={ handleChange } />
+        <input className="register__input" id="password" name="password" type="password" placeholder="Пароль:" value={data.password} onChange={ handleChange } />
         <div className="register__button-container">
-            <button type="submit" onSubmit={handleSubmit} className="register__button-submit">Зарегистрироваться</button>
+            <button type="submit" onSubmit={ handleSubmit } className="register__button-submit">Зарегистрироваться</button>
         </div>
       </form>
 

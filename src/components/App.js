@@ -36,7 +36,7 @@ function App() {
   const history = useHistory();
   
   useEffect(() => {
-// debugger;
+
     tokenCheck();
 
     api.getInitialCards()
@@ -95,11 +95,14 @@ function App() {
   function handleRegister({email, password}) {
     return auth.register(email, password)
       .then(res => {
-        if (!res || res.statusCode === 400) setIsRegistered(false);
+        if (!res || res.statusCode === 400) {
+          setIsRegistered(false);
+          setErrorMessageState('Такой пользователь уже зарегестрирован!')
+        }
         setIsRegistered(true);
         return res;
       })
-      .catch()
+      .catch(() => setErrorMessageState('Что-то не так с запросом на сервер!'))
   }
 
   function handleLoggedOut() {
@@ -187,10 +190,10 @@ function App() {
 
   return (
     <div className="page">
-      <CurrentUserContext.Provider value={currentUser}>       
+      <CurrentUserContext.Provider value={ currentUser }>       
       <ErrorMessageContext.Provider value={{ message: errorMessageState, setErrorMessage: message => setErrorMessageState(message) }}>       
 
-        <Header loggedIn={loggedIn} onLoggedOut={ handleLoggedOut } userData={ data }/>
+        <Header loggedIn={ loggedIn } onLoggedOut={ handleLoggedOut } userData={ data }/>
           <Switch>
             <ProtectedRoute exact path="/" 
               onEditProfile={ handleEditProfileClick }

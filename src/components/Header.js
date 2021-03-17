@@ -15,13 +15,13 @@ function Header({ loggedIn, onLoggedOut, userData }) {
     <header className="header">
       <img
         className="header__logo"
-        src={logo}
+        src={ logo }
         alt="Логотип"
       />
       <ul className="header__navbar">
         {userData.email === '' && 
-        <li className="header__navbar-links"><Link to={navbar.routePath} className="header__navbar-link">{navbar.routeName}</Link></li>}
-        {loggedIn && <li className="header__navbar-links"><Link to="/" className="header__navbar-link">{userData.email}</Link></li>}
+        <li className="header__navbar-links"><Link to={ navbar.routePath } className="header__navbar-link">{ navbar.routeName }</Link></li>}
+        {loggedIn && <li className="header__navbar-links"><Link to="/" className="header__navbar-link">{ userData.email }</Link></li>}
         {loggedIn && <li className="header__navbar-links"><Link to="/sign-in" className="header__navbar-link" onClick={ onLoggedOut } >Выйти</Link></li>}
       </ul>
     </header>  

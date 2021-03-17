@@ -5,7 +5,7 @@ import React, { useContext } from 'react';
 import 'react-dom';
 import { ErrorMessageContext } from '../contexts/ErrorMessageContext';
 
-function InfoTooltip({isOpen, onClose, isRegistered}) {
+function InfoTooltip({ isOpen, onClose, isRegistered }) {
   const { message } = useContext(ErrorMessageContext);
 
   const TooltipMessage = isRegistered ? 'Вы успешно зарегестрировались!' : (message || 'Что-то пошло не так!');
@@ -17,7 +17,7 @@ function InfoTooltip({isOpen, onClose, isRegistered}) {
         <button onClick={ onClose } type="button" className="popup__close"></button>
           <img
             className="tooltip__icon"
-            src={TooltipLogo}
+            src={ TooltipLogo }
             alt="Успешный логин"
           /> 
         <h3 className="tooltip__title">{ TooltipMessage }</h3> 
